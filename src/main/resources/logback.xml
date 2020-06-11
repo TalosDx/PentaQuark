@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration>
+<configuration packagingData="true">
+
+    <appender name="CONSOLE_LOG" class="ch.qos.logback.core.ConsoleAppender">
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{ISO8601} [%thread] %-5level %logger{36} [%line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LATEST_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/launcher/latest.log</file>
+        <append>true</append>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archives/launcher/log_%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxFileSize>20MB</maxFileSize>
+            <!-- keep 30 day's -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{ISO8601} [%thread] %-5level %logger{36} [%line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <appender name="ERROR_LOG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/launcher/latest_errors.log</file>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>logs/archives/launcher/errors-%d{yyyy-MM-dd}.%i.zip</fileNamePattern>
+            <maxFileSize>50MB</maxFileSize>
+            <!-- keep 60 day's -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{ISO8601} [%thread] %-5level %logger{36} [%line] - %msg%n</Pattern>
+        </encoder>
+    </appender>
+
+    <logger name="dev.talosdx">
+        <appender-ref ref="CONSOLE_LOG"/>
+        <appender-ref ref="LATEST_LOG"/>
+        <appender-ref ref="ERROR_LOG"/>
+    </logger>
+</configuration>
