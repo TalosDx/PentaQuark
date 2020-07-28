@@ -1,2 +1,2 @@
-rootProject.name = "microLauncherFx"
+rootProject.name = "PentaQuark"
 
